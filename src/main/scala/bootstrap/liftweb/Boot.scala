@@ -10,6 +10,7 @@ import sitemap._
 import Loc._
 import net.liftweb.http.js.jquery._
 
+import code.lib.{RestWebService, WebService}
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -47,7 +48,8 @@ class Boot {
     // Use HTML5 for rendering
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
-
+    
+    RestWebService.defaultWebService = new WebService("search.twitter.com")
 
   }
 }

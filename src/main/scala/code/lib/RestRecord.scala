@@ -12,7 +12,7 @@ import Js._
 
 object RestWebService {
   /** Default WebService for the application **/
-  def defaultWebService = new WebService("localhost", 4949, "locusapi2",
+  var defaultWebService = new WebService("localhost", 8080, "",
     Map("Accept" -> "application/json", "Content-type" -> "application/json"))
 }
 

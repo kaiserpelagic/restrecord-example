@@ -17,8 +17,9 @@ trait RestMetaRecord[BaseRecord <: RestRecord[BaseRecord]] extends JSONMetaRecor
   
   val http: Http = Http 
 
-  def find: Box[BaseRecord] = findFrom(webservice, buildUri)
-
+  def find(query: (String, String)*): Box[BaseRecord] = 
+    findFrom(webservice, buildUri, query: _*)
+  
   def find(id: String, query: (String, String)*): Box[BaseRecord] = 
     findFrom(webservice, buildUri(id), query: _*)
 

@@ -1,5 +1,4 @@
-package code
-package lib
+package code.lib
 
 import net.liftweb.common.{Box, Empty}
 import net.liftweb.json.JsonAST.{JValue, JObject, render}
@@ -18,8 +17,7 @@ import WebServiceHelpers._
 
 class WebService(request: Request) extends Request(request) {
  
-  // default to localhost:4949
-  def this(context: String) = this(:/("localhost", 4949) / context)
+  def this(hostname: String) = this(:/(hostname))
 
   def this(hostname: String, port: Int, context: String) = this(:/(hostname, port) / context)
 
