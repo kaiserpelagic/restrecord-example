@@ -12,9 +12,33 @@ import Js._
 
 object RestWebService {
   /** Default WebService for the application **/
-  var defaultWebService = new WebService("localhost", 8080, "",
-    Map("Accept" -> "application/json", "Content-type" -> "application/json"))
+  var defaultWebService = new WebService("localhost")
 }
+
+trait RestRecordPK[MyType <: RestRecord[MyType]]
+  extends RestRecord[MyType] {
+
+  self: MyType =>
+
+  /** Refine meta to require a RestMetaRecordPK */
+  def meta: RestMetaRecord[MyType]
+
+  /** Defines and uri identifier for this resource -- /foo/:id or /foo/:id/bar */
+  def defaultIdValue: Box[String]
+  
+  /** Defines the RESTful suffix for endpoint -- /foo/bar or /foo/:id/bar */
+  val uriSuffix: List[String] = Nil
+
+  def buildUriWithId(idBox: Box[String]) = idBox match {
+    case Full(id) => uri ::: List(id) ::: uriSuffix
+    case _        => uri ::: uriSuffix
+  }
+
+  override def buildUri: List[String] = buildUriWithId(defaultIdValue) 
+
+  override def buildUri(id: String): List[String] = buildUriWithId(Full(id)) 
+}
+
 
 trait RestRecord[MyType <: RestRecord[MyType]] extends JSONRecord[MyType] {
 
@@ -25,21 +49,15 @@ trait RestRecord[MyType <: RestRecord[MyType]] extends JSONRecord[MyType] {
 
   /** Defines the RESTful endpoint for this resource -- /foo */
   val uri: List[String]
-  
-  /** Defines the RESTful suffix for endpoint -- /foo/bar or /foo/:id/bar */
-  val uriSuffix: List[String] = Nil
 
-  /** Defines and uri identifier for this resource -- /foo/:id or /foo/:id/bar */
-  def id: Box[String] = Empty
+  def buildUri: List[String] = uri
 
-  def buildUri(id: String): List[String] = _buildUri(Full(id))
+  def buildUri(id: String) = uri ::: List(id)
 
-  def buildUri: List[String] = _buildUri(id)
+  /* aliases, override if you need spefific endpoints for create, delete, or update */
+  def saveEndpoint = buildUri
 
-  private def _buildUri(ident: Box[String]): List[String] = ident match {
-    case Full(x) => uri ::: List(x) ::: uriSuffix
-    case _ => uri ::: uriSuffix
-  }
+  def createEndpoint = buildUri
 
   def create: Box[JValue] = meta.create(this)
 

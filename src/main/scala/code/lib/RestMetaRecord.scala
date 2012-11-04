@@ -32,7 +32,7 @@ trait RestMetaRecord[BaseRecord <: RestRecord[BaseRecord]] extends JSONMetaRecor
   def createFrom(inst: BaseRecord, svc: WebService): Box[JValue] = { 
     foreachCallback(inst, _.beforeCreate)
     try { 
-      inst.handleResponse(withHttp(http, svc(inst.buildUri) createJS(inst.asJValue)))
+      inst.handleResponse(withHttp(http, svc(inst.createEndpoint) createJS(inst.asJValue)))
     } finally {
       foreachCallback(inst, _.afterCreate)
     }
@@ -45,7 +45,7 @@ trait RestMetaRecord[BaseRecord <: RestRecord[BaseRecord]] extends JSONMetaRecor
   def saveFrom(inst: BaseRecord, svc: WebService): Box[JValue] = {
     foreachCallback(inst, _.beforeSave)
     try {
-      inst.handleResponse(withHttp(http, svc(inst.buildUri) saveJS(inst.asJValue)))
+      inst.handleResponse(withHttp(http, svc(inst.saveEndpoint) saveJS(inst.asJValue)))
     } finally {
       foreachCallback(inst, _.afterSave)
     }
