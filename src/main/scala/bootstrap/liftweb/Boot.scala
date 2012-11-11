@@ -49,7 +49,7 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
     
-    RestWebService.defaultWebService = new WebService("search.twitter.com")
+    RestWebService.defaultWebService = WebService("search.twitter.com")
 
   }
 }

@@ -11,8 +11,8 @@ import scala.xml._
 
 object Twitter {
 
-  def render = {
-    val r = Search.find(("q", "lift framework")).get.results.is
-    "li *" #> r.map(t => "@text *" #> Text(t.text.valueBox openOr "")) 
-  }
+ // def render = {
+    //val r = Search.find(("q", "lift framework")).get.results.is
+   // "li *" #> r.map(t => "@text *" #> Text(t.text.valueBox openOr "")) 
+ // }
 }

@@ -5,56 +5,30 @@ import net.liftweb.json.JsonAST.{JValue, JObject, render}
 import net.liftweb.json.{Printer}
 
 import dispatch._
-import dispatch.Request._
-import liftjson._
-import Js._
-
 import scala.xml._
-
-
 import WebServiceHelpers._
+import com.ning.http.client.{RequestBuilder}
 
+object WebService {
+  def apply(url: String) = new WebService(host(url))
+}
 
-class WebService(request: Request) extends Request(request) {
- 
-  def this(hostname: String) = this(:/(hostname))
+class WebService(request: RequestBuilder) {
 
-  def this(hostname: String, port: Int, context: String) = this(:/(hostname, port) / context)
-
-  def this(hostname: String, port: Int, context: String, head: Map[String, String]) = 
-    this(:/(hostname, port) / context <:< head)
-  
-  def apply(path: List[String]) = new WebService(this / buildPath(path))
+  def apply(path: List[String]) = new WebService(request / buildPath(path))
   
   def apply(path: List[String], params: Map[String, String]) = 
-    new WebService(this / buildPath(path) <<? params)
-
+    new WebService(request / buildPath(path) <<? params)
 
   /** JSON Handlers */
 
-  def findJS = this ># identity
+  def findJS = request.GET OK LiftJson.As
   
-  def createJS(body: JObject) = this << jobjectToString(body) ># identity 
+  def createJS(body: JObject) = request.POST.setBody(jobjectToString(body)) OK LiftJson.As 
   
-  def saveJS(body: JObject) = this <<< jobjectToString(body) ># identity
+  def saveJS(body: JObject) = request.PUT.setBody(jobjectToString(body)) OK LiftJson.As
 
-  def deleteJS = this.DELETE ># identity
-
-
-  /** XML Handlers */
-
-  def findXML = this <> { xml => xml }
-    
-  def saveXML(body: NodeSeq) = this <<< body.toString <> { xml => xml }  
-  
-  def createXML(body: NodeSeq) = this << body.toString <> { xml => xml }
-  
-  def deleteXML = this.DELETE <> { xml => xml }
-
-
-  /** Form Handlers */
-
-  def createFORM(body: String) = this <<< body <> { xml => xml }
+  def deleteJS = request.DELETE OK LiftJson.As
   
   /** Convert a JObject into a String */
   private def jobjectToString(in: JObject): String = Printer.compact(render(in))

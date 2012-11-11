@@ -6,13 +6,12 @@ import net.liftweb.record.{MetaRecord, Record}
 import net.liftweb.json.JsonAST.{JValue, JObject, JBool, JField, JString}
 
 import dispatch._
-import dispatch.Request._
-import liftjson._
-import Js._
+import com.ning.http.client.{RequestBuilder}
 
 object RestWebService {
   /** Default WebService for the application **/
-  var defaultWebService = new WebService("localhost")
+  def req: RequestBuilder = host("localhost")
+  var defaultWebService = new WebService(req)
 }
 
 trait RestRecordPK[MyType <: RestRecord[MyType]]
@@ -59,9 +58,9 @@ trait RestRecord[MyType <: RestRecord[MyType]] extends JSONRecord[MyType] {
 
   def createEndpoint = buildUri
 
-  def create: Box[JValue] = meta.create(this)
+ // def create: Box[JValue] = meta.create(this)
 
-  def save: Box[JValue] = meta.save(this)
+ // def save: Box[JValue] = meta.save(this)
    
   /** override this method to handle api specific POST / PUT / DELETE responses **/
   def handleResponse[JValue](json: JValue): Box[JValue] = Full(json)
