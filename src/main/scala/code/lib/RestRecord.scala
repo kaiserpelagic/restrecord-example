@@ -1,6 +1,5 @@
 package code.lib
 
-import net.liftweb.couchdb.{JSONRecord}
 import net.liftweb.common.{Box, Full, Empty}
 import net.liftweb.record.{MetaRecord, Record}
 import net.liftweb.json.JsonAST.{JValue, JObject, JBool, JField, JString}

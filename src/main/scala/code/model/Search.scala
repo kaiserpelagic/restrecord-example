@@ -1,7 +1,6 @@
 package code.model
 
 import net.liftweb.record.field._
-import net.liftweb.couchdb._
 import net.liftweb.http.js._ 
 import net.liftweb.json._
 import net.liftweb.common._

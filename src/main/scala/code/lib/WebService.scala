@@ -22,7 +22,7 @@ class WebService(request: RequestBuilder) {
 
   /** JSON Handlers */
 
-  def findJS = request.GET OK LiftJson.As
+  def find = request.GET OK LiftJson.As
   
   def createJS(body: JObject) = request.POST.setBody(jobjectToString(body)) OK LiftJson.As 
   

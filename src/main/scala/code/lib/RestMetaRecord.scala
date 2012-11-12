@@ -5,7 +5,6 @@ import util._
 import common._
 import Helpers._
 import record.{MetaRecord, Record}
-import couchdb.{JSONMetaRecord}
 import http.js.{JsExp, JE, JsObj}
 import json.JsonAST._
 
@@ -15,20 +14,21 @@ import dispatch._
 trait RestMetaRecord[BaseRecord <: RestRecord[BaseRecord]] extends JSONMetaRecord[BaseRecord] {
   self: BaseRecord =>
   
-  val http: Http = dispatch.Http 
+  val http = Http 
 
-  def find(query: (String, String)*): Box[BaseRecord] = 
+  def find(query: (String, String)*): Promise[Box[BaseRecord]] = 
     findFrom(webservice, buildUri, query: _*)
   
-  def find(id: String, query: (String, String)*): Box[BaseRecord] = 
+  def find(id: String, query: (String, String)*): Promise[Box[BaseRecord]] = 
     findFrom(webservice, buildUri(id), query: _*)
 
-  def findFrom(svc: WebService, path: List[String], query: (String, String)*): Box[BaseRecord] = {
-    val result = http(svc(path, Map(query: _*)) findJS).either
-    result.map { 
-      case Left(f) => Failure(f.getMessage, Full(f), Empty)
-      case Right(r) => tryo(fromJValue(r))
+  def findFrom(svc: WebService, path: List[String], query: (String, String)*): Promise[Box[BaseRecord]] = {
+    val result = http(svc(path, Map(query: _*)) find).either
+    val r = result.map {
+      case Right(v) => fromJValue(v)
+      case Left(e) => Failure("error", Full(e), Empty)
     }
+    r
   }
 
  // def create(inst: BaseRecord): Box[JValue] = 
@@ -56,10 +56,10 @@ trait RestMetaRecord[BaseRecord <: RestRecord[BaseRecord]] extends JSONMetaRecor
  //   }
  // }
 
-  def withHttp[T](h: Http, hand: Handler[T]): T = {
-    h x (hand) {
-      case(code, _, _, out) =>  out()
-    }
-  }
+ // def withHttp[T](h: Http, hand: Handler[T]): T = {
+ //   h x (hand) {
+ //     case(code, _, _, out) =>  out()
+ //   }
+ // }
   
 }
