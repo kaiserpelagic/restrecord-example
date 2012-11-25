@@ -13,9 +13,10 @@ import dispatch.Promise
 
 object Twitter {
 
-  //def render: CssSel = {
-  //  for(r <- Search.find(("q", "lift framework")))()
-  //    "li *" #> r.map(_.results.is.map(t => "@text *" #> Text(t.text.valueBox openOr "")))
-  //  )
- // }
+  def search = Search.find(("q", "lift framework"))()
+
+  def render: CssSel = {
+    val s: Search = search openOr Search.createRecord
+    "li *" #> s.results.is.map(t => "@text *" #> Text(t.text.valueBox openOr ""))
+  }
 }

@@ -4,76 +4,53 @@ import net.liftweb.common.{Box, Full, Empty}
 import net.liftweb.record.{MetaRecord, Record}
 import net.liftweb.json.JsonAST.{JValue, JObject, JBool, JField, JString}
 
-import dispatch._
+import dispatch.{host, Promise}
 import com.ning.http.client.{RequestBuilder}
 
 object RestWebService {
-  /** Default WebService for the application **/
-  def req: RequestBuilder = host("localhost")
-  var defaultWebService = new WebService(req)
-}
-
-trait RestRecordPK[MyType <: RestRecord[MyType]]
-  extends RestRecord[MyType] {
-
-  self: MyType =>
-
-  /** Refine meta to require a RestMetaRecordPK */
-  def meta: RestMetaRecord[MyType]
-
-  /** Defines and uri identifier for this resource -- /foo/:id or /foo/:id/bar */
-  def defaultIdValue: Box[String]
+  var url = "localhost"
   
-  /** Defines the RESTful suffix for endpoint -- /foo/bar or /foo/:id/bar */
-  val uriSuffix: List[String] = Nil
-
-  def buildUriWithId(idBox: Box[String]) = idBox match {
-    case Full(id) => uri ::: List(id) ::: uriSuffix
-    case _        => uri ::: uriSuffix
-  }
-
-  override def buildUri: List[String] = buildUriWithId(defaultIdValue) 
-
-  override def buildUri(id: String): List[String] = buildUriWithId(Full(id)) 
+  def req: RequestBuilder = host(url)
+  def defaultWebService = new WebService(req)
 }
-
 
 trait RestRecord[MyType <: RestRecord[MyType]] extends JSONRecord[MyType] {
 
   self: MyType =>
-
+  
   /** Refine meta to require a RestMetaRecord */
   def meta: RestMetaRecord[MyType]
 
   /** Defines the RESTful endpoint for this resource -- /foo */
   val uri: List[String]
+  
+  /** Defines the RESTful suffix for endpoint -- /foo/:id/bar */
+  val uriSuffix: List[String] = Nil
 
-  def buildUri: List[String] = uri
+  /** Defines and uri identifier for this resource -- /foo/:id or /foo/:id/bar */
+  def idPK: Box[String] = Empty
 
-  def buildUri(id: String) = uri ::: List(id)
+  def buildUri: List[String] = uri ::: uriSuffix 
+  
+  def buildUri(id: String): List[String] = uri ::: List(id) ::: uriSuffix 
 
-  /* aliases, override if you need spefific endpoints for create, delete, or update */
-  def saveEndpoint = buildUri
+  def buildUri(box: Box[String]): List[String] = box.map(buildUri(_)) openOr buildUri 
 
+  def create: Promise[Box[JValue]] = meta.create(this)
+
+  def save: Promise[Box[JValue]] = meta.save(this)
+  
+  //def delete: Box[JValue] = meta.delete(this)
+  
   def createEndpoint = buildUri
 
- // def create: Box[JValue] = meta.create(this)
+  def saveEndpoint = buildUri(idPK)
 
- // def save: Box[JValue] = meta.save(this)
-   
+  def deleteEndpoint = buildUri(idPK)
+
   /** override this method to handle api specific POST / PUT / DELETE responses **/
   def handleResponse[JValue](json: JValue): Box[JValue] = Full(json)
 
-  /** The webservice this record is associated with */
-  private var _webservice: Box[WebService] = Empty
-
-  def webservice: WebService = _webservice match {
-    case Full(webservice) => webservice
-    case _ => {
-      _webservice = Full(_discoverWebService)
-      webservice
-    }
-  }
-  
-  def _discoverWebService = RestWebService.defaultWebService
+  // override this if you want to change this record's webservice
+  def webservice = RestWebService.defaultWebService
 }
