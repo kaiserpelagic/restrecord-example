@@ -1,4 +1,4 @@
-package code.lib
+package net.liftmodules.restrecord 
 
 import com.ning.http.client.Response
 

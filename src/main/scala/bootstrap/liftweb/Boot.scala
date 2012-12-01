@@ -10,7 +10,7 @@ import sitemap._
 import Loc._
 import net.liftweb.http.js.jquery._
 
-import code.lib.{RestWebService, WebService}
+import net.liftmodules.restrecord.{RestWebService, WebService}
 
 /**
  * A class that's instantiated early and run.  It allows the application

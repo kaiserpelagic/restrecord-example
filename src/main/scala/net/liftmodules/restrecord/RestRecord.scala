@@ -1,8 +1,8 @@
-package code.lib
+package net.liftmodules.restrecord
 
-import net.liftweb.common.{Box, Full, Empty}
+import net.liftweb.common._
+import net.liftweb.json.JsonAST._
 import net.liftweb.record.{MetaRecord, Record}
-import net.liftweb.json.JsonAST.{JValue, JObject, JBool, JField, JString}
 
 import dispatch.{host, Promise}
 import com.ning.http.client.{RequestBuilder}

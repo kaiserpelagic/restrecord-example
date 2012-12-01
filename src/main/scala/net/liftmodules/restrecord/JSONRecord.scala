@@ -11,7 +11,7 @@
 * limitations under the License.
 */
 
-package code.lib
+package net.liftmodules.restrecord
 
 import java.math.MathContext
 import java.util.Calendar

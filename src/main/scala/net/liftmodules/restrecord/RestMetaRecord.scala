@@ -1,12 +1,11 @@
-package code.lib
+package net.liftmodules.restrecord
 
-import net.liftweb._
-import util._
-import common._
+import net.liftweb.util._
+import net.liftweb.common._
 import Helpers._
-import record.{MetaRecord, Record}
-import http.js.{JsExp, JE, JsObj}
-import json.JsonAST._
+import net.liftweb.json.JsonAST._
+import net.liftweb.http.js.{JsExp, JE, JsObj}
+import net.liftweb.record.{MetaRecord, Record}
 
 import dispatch._
 import com.ning.http.client.{RequestBuilder, Request}

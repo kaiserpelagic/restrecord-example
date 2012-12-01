@@ -1,4 +1,4 @@
-package code.lib
+package net.liftmodules.restrecord
 
 import net.liftweb.common.{Box, Empty}
 import net.liftweb.json.JsonAST.{JValue, JObject, render}

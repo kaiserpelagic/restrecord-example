@@ -5,7 +5,7 @@ import net.liftweb.http.js._
 import net.liftweb.json._
 import net.liftweb.common._
 
-import code.lib._
+import net.liftmodules.restrecord._
 
 class SearchResult extends JSONRecord[SearchResult] {
   def meta = SearchResult
