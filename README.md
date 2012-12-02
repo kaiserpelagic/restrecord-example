@@ -51,9 +51,9 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
 ### Finding a Record (GET)
 
 ```scala
-  Search.find(3)
-  Search.find(3, ("foo", "bar"))
-  Search.find(("q", "liftweb"), ("baz, laraz"))
+  val response1: Promise[Box[Search]] = Search.find(3)
+  val response2: Promise[Box[Search]] = Search.find(3, ("foo", "bar"))
+  val response3: Promise[Box[Search]] = Search.find(("q", "liftweb"), ("baz, laraz"))
 ```
 <div>Find returns a: <code>Promise[Box[BaseRecord]]</code></div>
 <div>HTTP failures are captured in the Box as a Failure("error", Http 404, Empty)</div>
