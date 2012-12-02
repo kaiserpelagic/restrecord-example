@@ -1,5 +1,5 @@
 /*
-* Copyright 2010-2011 WorldWide Conferencing, LLC
+* Copyright 2012 Locus Energy 
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -66,6 +66,10 @@ trait RestRecord[MyType <: RestRecord[MyType]] extends JSONRecord[MyType] {
   /** override this method to handle api specific POST / PUT / DELETE responses **/
   def handleResponse[T](json: JValue): Box[T] = Empty 
   
-  // override this if you want to change this record's webservice
-  def webservice = RestWebService.defaultWebService
+  // override this if you want to change this record's specific webservice
+  def myWebservice = Empty
+
+  def _discoverWebservice = myWebservice openOr RestWebService.defaultWebService 
+
+  def webservice = _discoverWebservice 
 }
