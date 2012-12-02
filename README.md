@@ -27,3 +27,5 @@ so there's no more blocking while waiting on api calls
 <h3>Deleting a Record (DELETE)</h3>
 <div><code>MyRecord.delete</code></div>
 
+<h3>Creating a Record</h3>
+<script src="https://gist.github.com/4190233.js?file=Search.scala"></script>
