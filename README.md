@@ -55,9 +55,9 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
   Search.find(3, ("foo", "bar"))
   Search.find(("q", "liftweb"), ("baz, laraz"))
 ```
-Find returns a: <code>Promise[Box[BaseRecord]]</code></br>
-HTTP failures are captured in the Box as a Failure("error", Http 404, Empty)</br>
-The caller can decide what should happen in case of network failure</br>
+<div>Find returns a: <code>Promise[Box[BaseRecord]]</code></div>
+<div>HTTP failures are captured in the Box as a Failure("error", Http 404, Empty)</div>
+<div>The caller can decide what should happen in case of network failure</div>
 
 ### Creating a Record (POST)
 <div><code>MyRecord.create</code></div>
