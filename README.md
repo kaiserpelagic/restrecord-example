@@ -30,7 +30,8 @@ so there's no more blocking while waiting on api calls
 <h3>Creating a Record</h3>
 
 ```scala
-import net.liftmodules.restrecord.x
+import net.liftmodules.restrecord._
+
 class Search extends RestRecord[Search] {
   def meta = Search
 
@@ -40,4 +41,18 @@ class Search extends RestRecord[Search] {
 }
 
 object Search extends Search with RestMetaRecord[Search] { }
+
+class SearchResult extends JSONRecord[SearchResult] {
+  def meta = SearchResult
+
+  object text extends OptionalStringField(this, Empty)
+}
+
+object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
+  // we aren't going to serialize the entire response Twitter response 
+  // so we want to be flexible about parsing
+  override def ignoreExtraJSONFields: Boolean = true
+  override def needAllJSONFields: Boolean = false 
+}
+
 ```
