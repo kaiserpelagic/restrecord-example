@@ -15,7 +15,8 @@ object Boot.scala {
   etc ...
    
   RestWebService.url = "search.twitter.com"
-}```
+}
+```
 
 <h3>Finding a Record (GET)</h3>
 
