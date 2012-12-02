@@ -42,10 +42,10 @@ trait RestMetaRecord[BaseRecord <: RestRecord[BaseRecord]] extends JSONMetaRecor
    withHttp(http, svc(path, Map(query: _*)) find, fromJValue)
   }
 
-  def create(inst: BaseRecord): Promise[Box[JValue]] = 
+  def create[T](inst: BaseRecord): Promise[Box[T]] = 
     createFrom(inst, inst.webservice)
 
-  def createFrom(inst: BaseRecord, svc: WebService): Promise[Box[JValue]] = { 
+  def createFrom[T](inst: BaseRecord, svc: WebService): Promise[Box[T]] = { 
     foreachCallback(inst, _.beforeCreate)
     try {
       withHttp(http, svc(inst.createEndpoint) create(inst.asJValue), inst.handleResponse)
@@ -54,15 +54,27 @@ trait RestMetaRecord[BaseRecord <: RestRecord[BaseRecord]] extends JSONMetaRecor
     }
   }
 
-  def save(inst: BaseRecord): Promise[Box[JValue]] = 
+  def save[T](inst: BaseRecord): Promise[Box[T]] = 
     saveFrom(inst, inst.webservice)
 
-  def saveFrom(inst: BaseRecord, svc: WebService): Promise[Box[JValue]] = {
+  def saveFrom[T](inst: BaseRecord, svc: WebService): Promise[Box[T]] = {
     foreachCallback(inst, _.beforeSave)
     try {
       withHttp(http, svc(inst.saveEndpoint) save(inst.asJValue), inst.handleResponse)
     } finally {
       foreachCallback(inst, _.afterSave)
+    }
+  }
+
+  def delete[T](inst: BaseRecord): Promise[Box[T]] = 
+    deleteFrom(inst, inst.webservice)
+
+  def deleteFrom[T](inst: BaseRecord, svc: WebService): Promise[Box[T]] = {
+    foreachCallback(inst, _.beforeDelete)
+    try { 
+      withHttp(http, svc(inst.deleteEndpoint) delete, inst.handleResponse)
+    } finally {
+      foreachCallback(inst, _.afterDelete)
     }
   }
 
