@@ -8,7 +8,8 @@ so there's no more blocking while waiting on api calls
 
 ## Setup and Configuration
 
-Configure the api endpoint base in Boot.scala.
+Configure the api endpoint in Boot.scala. Here we are using Twitter's search api. This can be override later on
+if you a spefic Record to hit a different endpoint. If no url is specified the default is "localhost". 
 
 ```scala
 object Boot.scala {
@@ -51,9 +52,9 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
 ### Finding a Record (GET)
 
 ```scala
-  val response1: Promise[Box[Search]] = Search.find(3)
-  val response2: Promise[Box[Search]] = Search.find(3, ("foo", "bar"))
-  val response3: Promise[Box[Search]] = Search.find(("q", "liftweb"), ("baz, laraz"))
+  Search.find(3) // search.twitter.com/search.json/3
+  Search.find(3, ("foo", "bar")) // search.twitter.com/search.json/3?foo=bar 
+  Search.find(("q", "liftweb"), ("baz, laraz")) //searh.twitter.com/search.json?q=liftweb&bax=;larax
 ```
 <div>Find returns a: <code>Promise[Box[BaseRecord]]</code></div>
 <div>HTTP failures are captured in the Box as a Failure("error", Http 404, Empty)</div>
