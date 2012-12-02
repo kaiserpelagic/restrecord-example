@@ -29,8 +29,7 @@ so there's no more blocking while waiting on api calls
 
 <h3>Creating a Record</h3>
 
-
-<code>
+'''scala
 import net.liftmodules.restrecord.x
 class Search extends RestRecord[Search] {
   def meta = Search
@@ -41,6 +40,5 @@ class Search extends RestRecord[Search] {
 }
 
 object Search extends Search with RestMetaRecord[Search] { }
-
-</code>
+'''
 
