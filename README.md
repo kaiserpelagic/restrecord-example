@@ -54,11 +54,12 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
 ```scala
   Search.find(3) // search.twitter.com/search.json/3
   Search.find(3, ("foo", "bar")) // search.twitter.com/search.json/3?foo=bar 
-  Search.find(("q", "liftweb"), ("baz, laraz")) //searh.twitter.com/search.json?q=liftweb&bax=;larax
+  Search.find(("q", "liftweb"), ("baz, laraz")) //searh.twitter.com/search.json?q=liftweb&baz=larax
 ```
-<div>Find returns a: <code>Promise[Box[BaseRecord]]</code></div>
-<div>HTTP failures are captured in the Box as a Failure("error", Http 404, Empty)</div>
-<div>The caller can decide what should happen in case of network failure</div>
+* Find returns a: <code>Promise[Box[BaseRecord]]</code>
+  * In this case about it's <code>Promise[Box[Search]]</cod>
+* HTTP failures are captured in the Box as a Failure("error", Http 404, Empty)
+* The caller can decide what should happen in case of network failure
 
 ### Creating a Record (POST)
 <div><code>MyRecord.create</code></div>
