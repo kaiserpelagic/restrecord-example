@@ -6,8 +6,16 @@ A Lift Record interface for RESTful apis
 Uses Dispath 0.9.4's async-http-client for NIO transacations,
 so there's no more blocking while waiting on api calls
 
-
 <h2>How To Use</h2>
+
+Configure the api endpoint base in Boot.scala.
+
+```scala
+object Boot.scala {
+  etc ...
+   
+  RestWebService.url = "search.twitter.com"
+}```
 
 <h3>Finding a Record (GET)</h3>
 
@@ -15,8 +23,9 @@ so there's no more blocking while waiting on api calls
 <div><code>MyRecord.find(3, ("foo", "bar"))</code></div>
 <div><code>MyRecord.find(("foo", "bar"), ("baz, laraz"))</code></div>
 </br>
-<div>Find returns a -> <code>Promise[Box[BaseRecord]]</code></div>
-<div>Http failures are captured in the Box Promise[Failure("error", Http 404, Empty)]</div>
+<div>Find returns a: <code>Promise[Box[BaseRecord]]</code></div>
+<div>HTTP failures are captured in the Box as a Failure("error", Http 404, Empty). The caller can decide what should
+happen next</div>
 
 <h3>Creating a Record (POST)</h3>
 <div><code>MyRecord.create</code></div>
@@ -27,7 +36,7 @@ so there's no more blocking while waiting on api calls
 <h3>Deleting a Record (DELETE)</h3>
 <div><code>MyRecord.delete</code></div>
 
-<h3>Creating a Record</h3>
+<h2>Implementing a Record</h2>
 
 ```scala
 import net.liftmodules.restrecord._
