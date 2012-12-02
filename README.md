@@ -7,16 +7,15 @@ Uses <a href="http://dispatch.databinder.net/Dispatch.html">Databinder Dispatch'
 
 ## Setup and Configuration
 
-### Sbt Users 
+### SBT Users 
 
 Add dependency to your project description:
 ```scala
  val rest_record "net.liftmodules" %% "restrecord" % (liftVersion + "-1.1") % "XXX"
 ```
 
-Configure the api endpoint in Boot.scala by setting the url var in RestWebSerice. Here we are using Twitter's search
-api. This can be overriden later if you need a spefic Record to hit a different endpoint. The default is "localhost". 
-
+### Configuring
+By default the api endpoint is "localhost". You can change this in Boot.scala by setting setting the url var in RestWebSerice. 
 ```scala
 object Boot.scala {
   etc ...
@@ -24,6 +23,7 @@ object Boot.scala {
   RestWebService.url = "search.twitter.com"
 }
 ```
+In this example I'm using Twitter's search api. This endpoint can be overriden later if you need a spefic Record to hit a different endpoint.
 
 ## Implementing A Record
 
@@ -64,8 +64,8 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
 ```
 * Find returns a: <code>Promise[Box[BaseRecord]]</code>
   * In this case it's <code>Promise[Box[Search]]</cod>
-* HTTP failures are captured in the Box as a Failure("network error", SomeError(HTTPException404), Empty)
-  * The caller is responsible for handling Failures (including networking and json parsing) 
+* HTTP failures are captured in the Box as a Failure
+  * The caller is responsible for handling them 
 
 ### Creating a Record (POST)
 ```scala
