@@ -7,8 +7,8 @@ Uses <a href="http://dispatch.databinder.net/Dispatch.html">Databinder Dispatch'
 
 ## Setup and Configuration
 
-Configure the api endpoint in Boot.scala. Here we are using Twitter's search api. This can be override later on
-if you a spefic Record to hit a different endpoint. If no url is specified the default is "localhost". 
+Configure the api endpoint in Boot.scala by setting the url var in RestWebSerice. Here we are using Twitter's search
+api. This can be overriden later on if you need a spefic Record to hit a different endpoint. The default is "localhost". 
 
 ```scala
 object Boot.scala {
@@ -57,16 +57,22 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
 ```
 * Find returns a: <code>Promise[Box[BaseRecord]]</code>
   * In this case it's <code>Promise[Box[Search]]</cod>
-* HTTP failures are captured in the Box as a Failure("error", Http 404, Empty)
-  * The caller is responsible for all Failures (included network) 
+* HTTP failures are captured in the Box as a Failure("network error", SomeError(HTTPException404), Empty)
+  * The caller is responsible for handling Failures (including networking and json parsing) 
 
 ### Creating a Record (POST)
-<div><code>MyRecord.create</code></div>
+```scala
+MyRecord.create</code></div>
+```
 
 ### Updating a Record (PUT)
-<div><code>MyRecord.save</code></div>
+```scala
+MyRecord.save</code></div>
+```
 
 ### Deleting a Record (DELETE)
-<div><code>MyRecord.delete</code></div>
+```scala
+MyRecord.delete</code></div>
+```
 
 
