@@ -15,7 +15,7 @@ Finding a Record (GET)
 <div><code>MyRecord.find(3, ("foo", "bar"))</code><div>
 <div><code>MyRecord.find(("foo", "bar"), ("baz, laraz"))</code></div>
 
-Find returns a Promise[Box[BaseRecord]]
+Find returns a <code>Promise[Box[BaseRecord]]</code> </br>
 Http failures are captured in the Box Promise[Failure("error", Http 404, Empty)]
 
 Creating a Record (POST)
