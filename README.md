@@ -11,10 +11,8 @@ so there's no more blocking on io for api calls
 Finding a Record
 
 <code>MyRecord.find(3)</code>  
-with id and query params
-<code>MyRecord.find(3, ("foo", "bar"), )</code>
-or
-<code>MyRecord.find(("foo", "bar"), ("baz, laraz"))</code>
+<code>MyRecord.find(3, ("foo", "bar"))</code>
+<code>MyRecord.find(("foo", "bar"), ("baz, laraz"))</code> 
 
 Returns a Promise[Box[BaseRecord]]
 Http failures are captured in the Box Promise[Failure("error", Http 404", Empty)]
