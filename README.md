@@ -7,6 +7,13 @@ Uses <a href="http://dispatch.databinder.net/Dispatch.html">Databinder Dispatch'
 
 ## Setup and Configuration
 
+### Geting Rest Recort
+
+Add dependency to your project description:
+```scala
+ val restrecord "net.liftmodules" %% "restrecord" % (liftVersion + "-1.1") % "XXX"
+```
+
 Configure the api endpoint in Boot.scala by setting the url var in RestWebSerice. Here we are using Twitter's search
 api. This can be overriden later if you need a spefic Record to hit a different endpoint. The default is "localhost". 
 
