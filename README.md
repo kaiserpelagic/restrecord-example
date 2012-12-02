@@ -3,8 +3,7 @@ Rest Record
 
 A Lift Record interface for RESTful apis
 
-Uses Dispath 0.9.4's async-http-client for NIO transacations,
-so there's no more blocking while waiting on api calls
+Uses <a href="http://dispatch.databinder.net/Dispatch.html">Dispath 0.9.X's </a><a href="https://github.com/AsyncHttpClient/async-http-client">async-http-client</a> for NIO transacations, so there's no more blocking while waiting on api calls
 
 ## Setup and Configuration
 
