@@ -9,19 +9,19 @@ so there's no more blocking while waiting on api calls
 
 <h2>How To Use</h2>
 
-Finding a Record (GET)
+<h1>Finding a Record (GET)</h1>
 
 <div><code>MyRecord.find(3)</code><div>
 <div><code>MyRecord.find(3, ("foo", "bar"))</code><div>
 <div><code>MyRecord.find(("foo", "bar"), ("baz, laraz"))</code></div>
 
-Find returns a <code>Promise[Box[BaseRecord]]</code> </br>
-Http failures are captured in the Box Promise[Failure("error", Http 404, Empty)]
+<div>Find returns a <code>Promise[Box[BaseRecord]]</code></div>
+<div>Http failures are captured in the Box Promise[Failure("error", Http 404, Empty)]</div>
 
-Creating a Record (POST)
-
-
-Updating a Record (PUT)
+<h1>Creating a Record (POST)</h1>
 
 
-Deleting a Record (DELETE)
+<h1>Updating a Record (PUT)<h1>
+
+<h1>Deleting a Record (DELETE)<h1>
+
