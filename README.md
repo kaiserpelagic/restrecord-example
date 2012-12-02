@@ -11,21 +11,22 @@ Uses <a href="http://dispatch.databinder.net/Dispatch.html">Databinder Dispatch'
 
 Add dependency to your project description:
 ```scala
- val rest_record "net.liftmodules" %% "restrecord" % (liftVersion + "-1.1") % "XXX"
+ val rest_record = "net.liftmodules" %% "restrecord" % (liftVersion + "-1.1") % "XXX"
 ```
 
-### Configuring
-By default the api endpoint is "localhost". You can change this in Boot.scala by setting setting the url var in RestWebSerice. 
+### Configuration
+By default the api context is "localhost". You can change this in Boot.scala by setting setting the context var in RestWebSerice. 
+
 ```scala
 object Boot.scala {
   etc ...
    
-  RestWebService.url = "search.twitter.com"
+  RestWebService.context = "search.twitter.com"
 }
 ```
-In this example I'm using Twitter's search api. This endpoint can be overriden later if you need a spefic Record to hit a different endpoint.
+In this example I'm using Twitter's search api. The context can be overriden later if you need a different context for a speific Record.
 
-## Implementing A Record
+## Implemention
 
 ```scala
 import net.liftmodules.restrecord._
