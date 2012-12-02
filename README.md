@@ -34,6 +34,7 @@ import net.liftmodules.restrecord._
 class Search extends RestRecord[Search] {
   def meta = Search
 
+  // search.twitter.com/search.json
   override val uri = "search.json" :: Nil
       
   object results extends JSONSubRecordArrayField(this, SearchResult)
