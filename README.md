@@ -48,17 +48,16 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
 
 ```
 
-
-
 <h3>Finding a Record (GET)</h3>
 
-<div><code>MyRecord.find(3)</code></div>
-<div><code>MyRecord.find(3, ("foo", "bar"))</code></div>
-<div><code>MyRecord.find(("foo", "bar"), ("baz, laraz"))</code></div>
-</br>
+```scala
+  MyRecord.find(3)
+  MyRecord.find(3, ("foo", "bar"))
+  MyRecord.find(("foo", "bar"), ("baz, laraz"))
+```
 <div>Find returns a: <code>Promise[Box[BaseRecord]]</code></div>
-<div>HTTP failures are captured in the Box as a Failure("error", Http 404, Empty). The caller can decide what should
-happen next</div>
+<div>HTTP failures are captured in the Box as a Failure("error", Http 404, Empty). 
+The caller can decide what should happen in case of network failure</div>
 
 <h3>Creating a Record (POST)</h3>
 <div><code>MyRecord.create</code></div>
