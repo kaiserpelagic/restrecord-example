@@ -8,7 +8,7 @@ Uses <a href="http://dispatch.databinder.net/Dispatch.html">Databinder Dispatch'
 ## Setup and Configuration
 
 Configure the api endpoint in Boot.scala by setting the url var in RestWebSerice. Here we are using Twitter's search
-api. This can be overriden later on if you need a spefic Record to hit a different endpoint. The default is "localhost". 
+api. This can be overriden later if you need a spefic Record to hit a different endpoint. The default is "localhost". 
 
 ```scala
 object Boot.scala {
@@ -62,17 +62,17 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
 
 ### Creating a Record (POST)
 ```scala
-MyRecord.create</code></div>
+MyRecord.create
 ```
 
 ### Updating a Record (PUT)
 ```scala
-MyRecord.save</code></div>
+MyRecord.save
 ```
 
 ### Deleting a Record (DELETE)
 ```scala
-MyRecord.delete</code></div>
+MyRecord.delete
 ```
 
 
