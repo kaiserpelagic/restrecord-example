@@ -1,5 +1,5 @@
 /*
-* Copyright 2012 Locus Energy
+* Copyright 2010-2011 WorldWide Conferencing, LLC
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -14,46 +14,38 @@
 package net.liftmodules
 package restrecord
 
-import net.liftweb.common._
-import net.liftweb.json.JsonAST.{JValue, JObject, render}
-import net.liftweb.json.{Printer}
-
 import dispatch._
+import dispatch.oauth._
 import com.ning.http.client.{RequestBuilder}
+import com.ning.http.client.oauth._
 
+class WebService(val request: RequestBuilder) extends LiftJsonHandlers {
 
-object WebService {
-  def apply(url: String) = new WebService(host(url))
+  def url(path: List[String]) = 
+    path.foldLeft(request)((request, part) => request / part)
+
+  def query(params: (String, String)*) = 
+   request <<? Seq(params: _*)
+  
+  def head(head: (String, String)*) = 
+    request <:< Seq(head: _*)
+
+  def oauth(consumer: ConsumerKey, token: RequestToken) = 
+    new SigningVerbs(request) <@(consumer, token)
 }
 
-class WebService(request: RequestBuilder) {
+trait WebRequest {
+  def request: RequestBuilder
+}
 
-  import WebServiceHelpers._
-  def apply(path: List[String]) = 
-    new WebService(request / buildPath(path))
-  
-  def apply(path: List[String], params: Map[String, String]) = 
-    new WebService(request / buildPath(path) <<? params)
-
+trait LiftJsonHandlers extends WebRequest {
   /** JSON Handlers */
-
-  def find = request.GET OK LiftJson.As
   
-  def create(body: JObject) = request.POST.setBody(jobjectToString(body)) OK LiftJson.As 
+  def find = request.GET OK as.lift.Json
   
-  def save(body: JObject) = request.PUT.setBody(jobjectToString(body)) OK LiftJson.As
-
-  def delete = request.DELETE OK LiftJson.As
+  def create(body: String) = request.POST.setBody(body) OK as.lift.Json 
   
-  /** Convert a JObject into a String */
-  private def jobjectToString(in: JObject): String = Printer.compact(render(in))
-}
+  def save(body: String) = request.PUT.setBody(body) OK as.lift.Json
 
-
-object WebServiceHelpers {
-  def buildPath(path: List[String]): String = 
-    if (!path.isEmpty)
-      path.tail.foldLeft(path.head)(_ + "/" + _)
-    else 
-      ""
+  def delete = request.DELETE OK as.lift.Json
 }

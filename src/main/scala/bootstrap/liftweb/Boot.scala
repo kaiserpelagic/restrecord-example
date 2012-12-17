@@ -49,7 +49,8 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
     
-    RestWebService.url = "search.twitter.com"
-
+    RestWebService.host = "api.twitter.com"
+    RestWebService.context = Full("1.1")
+    RestWebService.oauth = true 
   }
 }
