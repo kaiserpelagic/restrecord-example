@@ -3,7 +3,7 @@ Rest Record
 
 Basic working Twitter example using RestRecord
 
-Twitter uses oauth so you're do need to do a little setup.
+Twitter uses oauth so you're going to need to do a little setup.
 
 Add these properties into the defalt.props file
 
