@@ -7,13 +7,13 @@ import net.liftweb.common._
 
 import net.liftmodules.restrecord._
 
-class SearchResult extends JSONRecord[SearchResult] {
-  def meta = SearchResult
+class Statuses extends JSONRecord[Statuses] {
+  def meta = Statuses
 
   object text extends OptionalStringField(this, Empty)
 }
 
-object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
+object Statuses extends Statuses with JSONMetaRecord[Statuses] {
   override def ignoreExtraJSONFields: Boolean = true
   override def needAllJSONFields: Boolean = false 
 }
@@ -21,9 +21,9 @@ object SearchResult extends SearchResult with JSONMetaRecord[SearchResult] {
 class Search extends RestRecord[Search] {
   def meta = Search
 
-  override val uri = "search.json" :: Nil
+  override val uri = "search" :: "tweets.json" :: Nil
   
-  object results extends JSONSubRecordArrayField(this, SearchResult)
+  object statuses extends JSONSubRecordArrayField(this, Statuses)
 }
 
 object Search extends Search with RestMetaRecord[Search] { }

@@ -17,6 +17,6 @@ object Twitter {
 
   def render: CssSel = {
     val s: Search = search openOr Search.createRecord
-    "li *" #> s.results.is.map(t => "@text *" #> Text(t.text.valueBox openOr ""))
+    "li *" #> s.statuses.is.map(t => "@text *" #> Text(t.text.valueBox openOr ""))
   }
 }

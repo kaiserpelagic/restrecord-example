@@ -43,28 +43,6 @@ object RestWebService {
   def webservice = new WebService(req)
 }
 
-trait RestRecordPk[MyType <: RestRecordPk[MyType]] extends RestRecord[MyType] {
-  self: MyType =>
-  
-  def meta: RestMetaRecordPk[MyType]
-
-  def idPk: Any
-
-  /** 
-   *  Defines the RESTful suffix after id 
-   *  Example: /uri/:id/uriSuffix
-   */
-  val uriSuffix: List[String] = Nil
-  
-  def buildUri(id: Any): List[String] = uri ::: List(id.toString) ::: uriSuffix
-  
-  def findEndpoint(id: Any) = buildUri(id)
-  
-  override def saveEndpoint = buildUri(idPk)
-
-  override def deleteEndpoint = buildUri(idPk)
-}
-
 trait RestRecord[MyType <: RestRecord[MyType]] extends JSONRecord[MyType] {
 
   self: MyType =>
@@ -73,28 +51,45 @@ trait RestRecord[MyType <: RestRecord[MyType]] extends JSONRecord[MyType] {
    *  Refine meta to require a RestMetaRecord 
    */
   def meta: RestMetaRecord[MyType]
-
+  
   /** 
    *  Defines the RESTful endpoint for this resource 
    *  Examples: /foo or /foo/bar 
    */
   val uri: List[String]
   
-  def buildUri: List[String] = uri
+  /** 
+   *  Defines the RESTful id for this resource
+   *  Empty implies this endoint does not use and id
+   *  Used on Saves and Deletes 
+   */
+  def idPk: Box[Any] = Empty
+ 
+  /** 
+   *  Defines the RESTful suffix after id 
+   *  Example: /uri/:id/suffix
+   */
+  val suffix: List[String] = Nil
+  
+  def uri(id: Any): List[String] = uri ::: List(id.toString) ::: suffix
   
   def create: Promise[Box[JValue]] = meta.create(this)
 
   def save: Promise[Box[JValue]] = meta.save(this)
   
   def delete: Promise[Box[JValue]] = meta.delete(this)
+
+  def findEndpoint(id: Any) = uri(id)
   
-  def findEndpoint = buildUri
+  def findEndpoint = uri 
 
-  def createEndpoint = buildUri
+  def createEndpoint = uri // we should never have an id on creation
 
-  def saveEndpoint = buildUri
+  private def _discoverEndpoint = idPk.map(uri(_)) openOr uri
+  
+  def saveEndpoint = _discoverEndpoint 
 
-  def deleteEndpoint = buildUri
+  def deleteEndpoint = _discoverEndpoint 
 
   // override this if you want to change this record's specific webservice
   def myWebservice = Empty

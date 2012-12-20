@@ -52,5 +52,6 @@ class Boot {
     RestWebService.host = "api.twitter.com"
     RestWebService.context = Full("1.1")
     RestWebService.oauth = true 
+    RestWebService.ssl = true 
   }
 }
