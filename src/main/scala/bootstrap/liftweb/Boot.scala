@@ -10,7 +10,8 @@ import sitemap._
 import Loc._
 import net.liftweb.http.js.jquery._
 
-import net.liftmodules.restrecord.{RestWebService, WebService}
+import net.liftmodules.{RestRecord}
+import net.liftmodules.restrecord.{RestRecordConfig, WebService}
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -49,9 +50,10 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
     
-    RestWebService.host = "api.twitter.com"
-    RestWebService.context = Full("1.1")
-    RestWebService.oauth = true 
-    RestWebService.ssl = true 
+    RestRecordConfig.host = "api.twitter.com"
+    RestRecordConfig.context = Full("1.1")
+    RestRecordConfig.oauth = true 
+    RestRecordConfig.ssl = true 
+    RestRecord.init()
   }
 }
