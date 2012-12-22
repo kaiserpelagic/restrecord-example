@@ -33,7 +33,4 @@ class Statuses extends RestRecord[Statuses] {
 }
 
 object Statuses extends Statuses with RestMetaRecord[Statuses] {
-  // allows for flexible parsing of the json
-  override def ignoreExtraJSONFields: Boolean = true
-  override def needAllJSONFields: Boolean = false 
 }
