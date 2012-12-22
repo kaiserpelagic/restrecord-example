@@ -15,12 +15,11 @@ seq(com.github.siasia.WebPlugin.webSettings :_*)
 scalacOptions ++= Seq("-deprecation", "-unchecked")
 
 libraryDependencies ++= {
-  val liftVersion = "2.5-M3"
+  val liftVersion = "2.5-SNAPSHOT"
   Seq(
     "net.liftweb"       %% "lift-webkit"              % liftVersion  % "compile",
     "net.liftweb"       %% "lift-record"              % liftVersion  % "compile",
-    "net.databinder.dispatch" %% "dispatch-core"      % "0.9.4"      % "compile",
-    "net.databinder.dispatch" %% "dispatch-lift-json" % "0.9.4"      % "compile", 
+    "net.liftmodules" %% "restrecord" % (liftVersion + "-1.1-SNAPSHOT") % "compile",
     "org.eclipse.jetty" % "jetty-webapp"        % "8.1.7.v20120910"  % "container,test",
     "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar"),
     "ch.qos.logback"    % "logback-classic"     % "1.0.6",
