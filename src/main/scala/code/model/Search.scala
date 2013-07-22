@@ -11,8 +11,8 @@ import com.ning.http.client.oauth._
 trait TwitterConfig {
   // you need to provide your twitter keys and secrets
   val consumerKey = new ConsumerKey("", "")
-  val token = new RequestToken("", "")
-  
+  val tolken = new RequestToken("", "")
+
   val configuration = RestRecordConfig(
     "api.twitter.com",
     Empty,
@@ -20,7 +20,7 @@ trait TwitterConfig {
     true, 
     true,
     Full(consumerKey),
-    Full(token)
+    Full(tolken)
   )
 }
 
