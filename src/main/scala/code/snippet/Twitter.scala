@@ -9,7 +9,7 @@ import util._
 import Helpers._
 import scala.xml._
 
-import dispatch.Promise
+import dispatch._
 
 object Twitter {
 
