@@ -50,10 +50,6 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
     
-    RestRecordConfig.host = "api.twitter.com"
-    RestRecordConfig.context = Full("1.1")
-    RestRecordConfig.oauth = true 
-    RestRecordConfig.ssl = true 
     RestRecord.init()
   }
 }

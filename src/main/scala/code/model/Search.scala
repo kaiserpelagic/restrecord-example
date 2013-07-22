@@ -6,6 +6,28 @@ import net.liftweb.json._
 import net.liftweb.common._
 
 import net.liftmodules.restrecord._
+import com.ning.http.client.oauth._
+   
+trait TwitterConfig {
+  // you need to provide your twitter keys and secrets
+  val consumerKey = new ConsumerKey("", "")
+  val token = new RequestToken("", "")
+  
+  val configuration = RestRecordConfig(
+    "api.twitter.com",
+    Empty,
+    Full("1.1"),
+    true, 
+    true,
+    Full(consumerKey),
+    Full(token)
+  )
+}
+
+
+/*****************************************************************
+ **  SEARCH
+ *****************************************************************/
 
 class Search extends RestRecord[Search] {
   def meta = Search
@@ -16,7 +38,12 @@ class Search extends RestRecord[Search] {
   object statuses extends JSONSubRecordArrayField(this, Statuses)
 }
 
-object Search extends Search with RestMetaRecord[Search] { }
+object Search extends Search with RestMetaRecord[Search] with TwitterConfig 
+
+
+/*****************************************************************
+ **  STATUS
+ *****************************************************************/
 
 class Statuses extends RestRecord[Statuses] {
   def meta = Statuses
@@ -32,5 +59,4 @@ class Statuses extends RestRecord[Statuses] {
   object text extends OptionalStringField(this, Empty)
 }
 
-object Statuses extends Statuses with RestMetaRecord[Statuses] {
-}
+object Statuses extends Statuses with RestMetaRecord[Statuses] with TwitterConfig
